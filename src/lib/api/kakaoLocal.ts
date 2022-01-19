@@ -9,7 +9,7 @@ class KakaoLocal {
     }
 
     async getAddress(query: string) {
-        const { data } = await Axios.get(`${this.url}?query=${query}`, {
+        const { data } = await Axios.get(`${this.url}?query=${encodeURIComponent(query)}`, {
             headers: {
                 Authorization: `KakaoAK ${this.key}`
             },
