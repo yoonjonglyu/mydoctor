@@ -1,0 +1,15 @@
+import React from 'react';
+
+interface MainProps {
+
+}
+
+const Main: React.FC<MainProps> = () => {
+    return (
+        <div>
+            <h1>hi</h1>
+        </div>
+    );
+}
+
+export default Main;
