@@ -1,14 +1,17 @@
 import React from 'react';
 
+import LocationList from '../components/locationList';
+
 interface MainProps {
 
 }
 
 const Main: React.FC<MainProps> = () => {
     return (
-        <div>
-            <h1>hi</h1>
-        </div>
+        <main role="main">
+            <h1>Hi MyDoctor</h1>
+            <LocationList />
+        </main>
     );
 }
 
