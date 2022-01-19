@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import Local from '../lib/api/kakaoLocal';
+import NaverMap from '../lib/custom/naverMap';
 
 import env from '../../env';
 
@@ -28,10 +29,19 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
         setKeyword(e.target.value);
     }
 
+    const mapBox = useRef(null);
+    const naverMap = NaverMap({
+        url: `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${env.naverMap}`,
+        ref: mapBox
+    });
+
+    useEffect(() => {
+        setTimeout(naverMap, 100);
+    }, []);
+
     return (
         <>
             <form data-testid="location-form" onSubmit={SearchLocation}>
-                <script type="text/javascript" src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${env.naverMap}`}></script>
                 <input
                     type="text"
                     value={keyword}
@@ -40,7 +50,16 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
                 />
                 <button type="button">지도로 검색</button>
             </form>
-            <div></div>
+            <div
+                id="map"
+                style={{
+                    width: "100%",
+                    height: "300px"
+                }}
+                onClick={naverMap}
+                ref={mapBox}
+            >
+            </div>
         </>
     );
 }
