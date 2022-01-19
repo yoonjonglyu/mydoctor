@@ -31,7 +31,7 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
     return (
         <>
             <form data-testid="location-form" onSubmit={SearchLocation}>
-                <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=vjx3cs0ck2"></script>
+                <script type="text/javascript" src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${env.naverMap}`}></script>
                 <input
                     type="text"
                     value={keyword}
