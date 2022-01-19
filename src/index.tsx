@@ -8,6 +8,6 @@ const render = (App: React.FC) => {
         <App />,
         document.querySelector('#app')
     );
-};
+}
 
 render(App);
