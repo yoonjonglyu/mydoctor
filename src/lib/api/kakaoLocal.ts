@@ -8,14 +8,18 @@ class KakaoLocal {
         this.key = key;
     }
 
-    async getAddress(query: string) {
-        const { data } = await Axios.get(`${this.url}?query=${encodeURIComponent(query)}`, {
-            headers: {
-                Authorization: `KakaoAK ${this.key}`
-            },
-        });
-
-        return data;
+    async getAddress(query: string, page: number = 1, size: number = 10) {
+        try {
+            const { data } = await Axios.get(`${this.url}?analyze_type=similar&page=${page}&size=${size}&query=${encodeURIComponent(query)}`, {
+                headers: {
+                    Authorization: `KakaoAK ${this.key}`
+                },
+            });
+            return data;
+        } catch(e){
+            console.error(e);
+            return false;
+        }
     }
 }
 
