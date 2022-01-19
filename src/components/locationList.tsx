@@ -12,9 +12,18 @@ const LocationList: React.FC<LocationListProps> = () => {
     const locations = useSelector((state: RootState) => state.locationList.locationList);
     const dispatch = useDispatch();
 
+    const removeLocations = (idx: number) => {
+        const state = [...locations.slice(0, idx), ...locations.slice(idx + 1, locations.length)];
+        dispatch(setLocationList(
+            {
+                locationList: state
+            }
+        ));
+        localStorage.setItem('locationList', JSON.stringify(state));
+    }
+
     useEffect(() => { // init dummy data
-        const cache = localStorage.getItem('locationList');
-        if (!cache) {
+        if (!localStorage.getItem('locationList')) {
             localStorage.setItem(
                 'locationList',
                 JSON.stringify([
@@ -36,7 +45,7 @@ const LocationList: React.FC<LocationListProps> = () => {
 
         dispatch(setLocationList(
             {
-                locationList: cache ? JSON.parse(cache) : []
+                locationList: JSON.parse(localStorage.getItem('locationList') || '[]')
             }
         ));
 
@@ -59,7 +68,12 @@ const LocationList: React.FC<LocationListProps> = () => {
                                     {item.locationDetail}<br />
                                     {item.notice}<br />
                                 </p>
-                                <button type="button">삭제</button>
+                                <button
+                                    type="button"
+                                    onClick={() => removeLocations(idx)}
+                                >
+                                    삭제
+                                </button>
                             </li>
                         );
                     })
