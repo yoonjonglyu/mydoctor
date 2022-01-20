@@ -43,8 +43,8 @@ export function useSearchLocations() {
         const result = {
             ...page
         };
-
         const location = new KakaoLocal(env.kakaoLocal);
+        
         if (page.isEnd === 1) {
             const search = await location.getAddress(result.keyword, result.currentPage);
             if (search) {
@@ -53,7 +53,11 @@ export function useSearchLocations() {
                     x: el.address ? el.address.x : el.road_address.x,
                     y: el.address ? el.address.y : el.road_address.y,
                 }));
-                setSearchLocations(searchLocations.concat(state));
+                setSearchLocations(
+                    page.keyword == pageInfo.keyword ?
+                        searchLocations.concat(state) :
+                        state
+                );
                 result.isEnd = search.meta.is_end === true ? 2 : 1;
                 result.isEnd === 1 ?
                     result.currentPage += 1 :
@@ -69,7 +73,11 @@ export function useSearchLocations() {
                     x: el.x,
                     y: el.y,
                 }));
-                setSearchLocations(searchLocations.concat(state));
+                setSearchLocations(
+                    page.keyword == pageInfo.keyword ?
+                        searchLocations.concat(state) :
+                        state
+                );
                 result.isEnd = search.meta.is_end === true ? 3 : 2;
                 result.isEnd === 2 ?
                     result.currentPage += 1 :
