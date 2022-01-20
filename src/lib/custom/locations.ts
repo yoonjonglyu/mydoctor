@@ -39,28 +39,44 @@ export function useSearchLocations() {
     const pageInfo = useSelector((state: RootState) => state.SearchPageInfo.pageInfo);
     const dispatch = useDispatch();
 
-    const getLocations = async (keyword: string, page: number) => {
+    const getLocations = async (page: typeof pageInfo) => {
         const result = {
-            isEnd: true,
-            currentPage: page,
-            keyword: keyword
+            ...page
         };
 
         const location = new KakaoLocal(env.kakaoLocal);
-        const search = await location.getAddress(keyword, page);
-        if (search) {
-            const state = search.documents.map((el: any) => ({
-                addressName: el.address ? el.address.address_name : el.road_address.address_name,
-                x: el.address ? el.address.x : el.road_address.x,
-                y: el.address ? el.address.y : el.road_address.y,
-            }));
-            setSearchLocations(searchLocations.concat(state));
-            result.isEnd = search.meta.is_end;
-            !search.meta.isEnd ?
-                result.currentPage += 1 :
-                result.currentPage = 1;
+        if (page.isEnd === 1) {
+            const search = await location.getAddress(result.keyword, result.currentPage);
+            if (search) {
+                const state = search.documents.map((el: any) => ({
+                    addressName: el.address ? el.address.address_name : el.road_address.address_name,
+                    x: el.address ? el.address.x : el.road_address.x,
+                    y: el.address ? el.address.y : el.road_address.y,
+                }));
+                setSearchLocations(searchLocations.concat(state));
+                result.isEnd = search.meta.is_end === true ? 2 : 1;
+                result.isEnd === 1 ?
+                    result.currentPage += 1 :
+                    result.currentPage = 1;
+            } else {
+                alert('KAKAO 로컬 API 오류');
+            }
         } else {
-            alert('KAKAO 로컬 API 오류');
+            const search = await location.getKeyword(result.keyword, result.currentPage);
+            if (search) {
+                const state = search.documents.map((el: any) => ({
+                    addressName: `${el.place_name}, ${el.address_name}`,
+                    x: el.x,
+                    y: el.y,
+                }));
+                setSearchLocations(searchLocations.concat(state));
+                result.isEnd = search.meta.is_end === true ? 3 : 2;
+                result.isEnd === 2 ?
+                    result.currentPage += 1 :
+                    result.currentPage = 1;
+            } else {
+                alert('KAKAO 로컬 API 오류');
+            }
         }
 
         return result;
