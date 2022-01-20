@@ -4,6 +4,9 @@ import { RootState } from '../../store/configureStore';
 import { setLocationList } from '../../store/locationList';
 import { setSearchLocationList } from '../../store/searchLocationList';
 
+import KakaoLocal from '../api/kakaoLocal';
+
+import env from '../../../env';
 export function useUserLocations() {
     const locations = useSelector((state: RootState) => state.locationList.locationList);
     const dispatch = useDispatch();
@@ -40,9 +43,36 @@ export function useSearchLocations() {
             }
         ));
     }
+    const getLocations = async (keyword: string, page: number) => {
+        const result = {
+            isEnd: false,
+            currentPage: page,
+            keyword: ''
+        };
+
+        const location = new KakaoLocal(env.kakaoLocal);
+        const search = await location.getAddress(keyword, 1);
+        if (search) {
+            const state = search.documents.map((el: any) => ({
+                addressName: el.address ? el.address.address_name : el.road_address.address_name,
+                x: el.address ? el.address.x : el.road_address.x,
+                y: el.address ? el.address.y : el.road_address.y,
+            }));
+            setSearchLocations(state);
+            result.keyword = keyword;
+            result.isEnd = search.meta.isEnd;
+            !search.meta.isEnd ?
+                result.currentPage++ :
+                result.currentPage = 1;
+        } else {
+            alert('KAKAO 로컬 API 오류');
+        }
+
+        return result;
+    }
 
     return {
         searchLocations,
-        setSearchLocations,
+        getLocations,
     };
 }
