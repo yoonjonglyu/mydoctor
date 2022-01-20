@@ -45,9 +45,9 @@ export function useSearchLocations() {
     }
     const getLocations = async (keyword: string, page: number) => {
         const result = {
-            isEnd: false,
+            isEnd: true,
             currentPage: page,
-            keyword: ''
+            keyword: keyword
         };
 
         const location = new KakaoLocal(env.kakaoLocal);
@@ -59,7 +59,6 @@ export function useSearchLocations() {
                 y: el.address ? el.address.y : el.road_address.y,
             }));
             setSearchLocations(state);
-            result.keyword = keyword;
             result.isEnd = search.meta.isEnd;
             !search.meta.isEnd ?
                 result.currentPage++ :
