@@ -22,8 +22,8 @@ const SelectLocation: React.FC<SelectLocationProps> = ({ handleSelect }) => {
             if (entry.isIntersecting && !isLoaded) {
                 observer.unobserve(entry.target);
                 setIsLoaded(true);
-                if (!pageInfo.isEnd) {
-                    const searchResult = await getLocations(pageInfo.keyword, pageInfo.currentPage);
+                if (pageInfo.isEnd !== 3) {
+                    const searchResult = await getLocations(pageInfo);
                     setPageInfo(searchResult);
                     await new Promise((resolve) => setTimeout(resolve, 1000));
                 }

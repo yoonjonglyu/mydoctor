@@ -27,7 +27,11 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
         e.preventDefault();
         if (keyword.length > 0) {
             setSearchLocations([]);
-            const searchResult = await getLocations(keyword, 1);
+            const searchResult = await getLocations({
+                keyword,
+                isEnd: 1,
+                currentPage: 1
+            });
             setPageInfo(searchResult);
             setStep(1);
         }
