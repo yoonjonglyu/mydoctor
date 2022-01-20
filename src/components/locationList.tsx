@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { userLocations } from '../lib/custom/locations';
+import { useUserLocations } from '../lib/custom/locations';
 
 interface LocationListProps {
 
@@ -11,7 +11,7 @@ const LocationList: React.FC<LocationListProps> = () => {
         locations,
         setLocations,
         removeLocations,
-    } = userLocations();
+    } = useUserLocations();
 
     useEffect(() => { // init dummy data
         if (!localStorage.getItem('locationList')) {
@@ -33,9 +33,7 @@ const LocationList: React.FC<LocationListProps> = () => {
                 ])
             );
         }
-
         setLocations(JSON.parse(localStorage.getItem('locationList') || '[]'));
-
     }, []);
 
     return (
