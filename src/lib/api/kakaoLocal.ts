@@ -8,7 +8,7 @@ class KakaoLocal {
         this.key = key;
     }
 
-    async getAddress(query: string, page: number = 1, size: number = 10) {
+    async getAddress(query: string, page: number = 1, size: number = 20) {
         try {
             const { data } = await Axios.get(`${this.url}address.json?analyze_type=similar&page=${page}&size=${size}&query=${encodeURIComponent(query)}`, {
                 headers: {
@@ -21,7 +21,7 @@ class KakaoLocal {
             return false;
         }
     }
-    async getKeyword(query: string, page: number = 1, size: number = 10) {
+    async getKeyword(query: string, page: number = 1, size: number = 20) {
         try {
             const { data } = await Axios.get(`${this.url}keyword.json?sort=accuracy&page=${page}&size=${size}&query=${encodeURIComponent(query)}`, {
                 headers: {
