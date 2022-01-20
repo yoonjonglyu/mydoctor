@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 
 import { useSearchLocations } from '../lib/custom/locations';
 
@@ -8,9 +8,34 @@ interface SelectLocationProps {
 
 const SelectLocation: React.FC<SelectLocationProps> = ({ handleSelect }) => {
     const {
+        pageInfo,
+        setPageInfo,
         searchLocations,
         getLocations,
     } = useSearchLocations();
+
+    const target = useRef(null);
+    const [isLoaded, setIsLoaded] = useState(false);
+    if (target.current) {
+        let observer: IntersectionObserver;
+        observer = new IntersectionObserver(async ([entry]: any, observer: IntersectionObserver) => {
+            if (entry.isIntersecting && !isLoaded) {
+                observer.unobserve(entry.target);
+                setIsLoaded(true);
+                if (!pageInfo.isEnd) {
+                    const searchResult = await getLocations(pageInfo.keyword, pageInfo.currentPage);
+                    setPageInfo(searchResult);
+                    await new Promise((resolve) => setTimeout(resolve, 1000));
+                }
+                setIsLoaded(false);
+                observer && observer.disconnect();
+            }
+        }, {
+            threshold: 1,
+        });
+        observer.observe(target.current);
+    }
+
 
     return (
         <div
@@ -42,6 +67,10 @@ const SelectLocation: React.FC<SelectLocationProps> = ({ handleSelect }) => {
                         );
                     })
                 }
+                <div
+                data-testid="last-item"
+                    ref={target}
+                />
             </ul>
         </div>
     );

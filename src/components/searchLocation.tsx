@@ -17,28 +17,26 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
         x: 127.105399,
         y: 37.3595704,
     });
-    const [pageInfo, setPageInfo] = useState({
-        isEnd: true,
-        keyword: '',
-        currentPage: 1
-    });
     const {
+        setPageInfo,
+        setSearchLocations,
         getLocations,
     } = useSearchLocations();
 
     const searchAddress = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (keyword.length > 0) {
-            const searchResult = await getLocations(keyword, pageInfo.currentPage);
+            setSearchLocations([]);
+            const searchResult = await getLocations(keyword, 1);
             setPageInfo(searchResult);
             setStep(1);
         }
         setKeyword('');
     }
-
     const handleKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
         setKeyword(e.target.value);
     }
+
     const handleSelect = (address: string, x: number, y: number) => {
         setSelectInfo({
             addressName: address,
@@ -47,7 +45,6 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
         });
         setStep(step + 1);
     }
-
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
