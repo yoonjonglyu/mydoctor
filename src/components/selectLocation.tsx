@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { useSearchLocations } from '../lib/custom/locations';
 
@@ -14,10 +14,10 @@ const SelectLocation: React.FC<SelectLocationProps> = ({ handleSelect }) => {
         getLocations,
     } = useSearchLocations();
 
+    let observer: IntersectionObserver;
     const target = useRef(null);
     const [isLoaded, setIsLoaded] = useState(false);
     if (target.current) {
-        let observer: IntersectionObserver;
         observer = new IntersectionObserver(async ([entry]: any, observer: IntersectionObserver) => {
             if (entry.isIntersecting && !isLoaded) {
                 observer.unobserve(entry.target);
@@ -35,7 +35,9 @@ const SelectLocation: React.FC<SelectLocationProps> = ({ handleSelect }) => {
         });
         observer.observe(target.current);
     }
-
+    useEffect(() => {
+        return () => observer && observer.disconnect();
+    }, []);
 
     return (
         <div
@@ -68,7 +70,7 @@ const SelectLocation: React.FC<SelectLocationProps> = ({ handleSelect }) => {
                     })
                 }
                 <div
-                data-testid="last-item"
+                    data-testid="last-item"
                     ref={target}
                 />
             </ul>

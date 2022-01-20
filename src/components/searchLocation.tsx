@@ -19,14 +19,12 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
     });
     const {
         setPageInfo,
-        setSearchLocations,
         getLocations,
     } = useSearchLocations();
 
     const searchAddress = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (keyword.length > 0) {
-            setSearchLocations([]);
             const searchResult = await getLocations({
                 keyword,
                 isEnd: 1,
