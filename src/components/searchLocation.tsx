@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 
 import SelectLocation from './selectLocation';
+import LocationMap from './locationMap';
 
 import Local from '../lib/api/kakaoLocal';
-import NaverMap from '../lib/custom/naverMap';
 import { useSearchLocations } from '../lib/custom/locations';
 
 import env from '../../env';
@@ -13,11 +13,12 @@ interface SearchLocationProps {
 }
 
 const SearchLocation: React.FC<SearchLocationProps> = () => {
+    const [step, setStep] = useState(0);
     const [keyword, setKeyword] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const {
         setSearchLocations,
-    } = useSearchLocations()
+    } = useSearchLocations();
 
     const SearchLocation = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -37,6 +38,7 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
                     setCurrentPage(1);
                     setSearchLocations(state);
                 }
+                setStep(1);
             } else {
                 alert('API 요청 오류');
             }
@@ -47,27 +49,8 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
         setKeyword(e.target.value);
     }
 
-    const mapBox = useRef(null);
-    const naverMap = NaverMap({
-        url: `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${env.naverMap}`,
-        ref: mapBox
-    });
-
-    useEffect(() => {
-        setTimeout(naverMap, 100);
-    }, []);
-
     return (
-        <>
-            <div
-                id="map"
-                style={{
-                    width: "50%",
-                    height: "300px"
-                }}
-                ref={mapBox}
-            >
-            </div>
+        <article data-tesdid="search-location">
             <form data-testid="location-form" onSubmit={SearchLocation}>
                 <input
                     type="text"
@@ -75,10 +58,23 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
                     onChange={handleKeyword}
                     placeholder="주소 검색"
                 />
-                <button type="submit">검색</button>
+                <button 
+                type="button"
+                onClick={() => setStep(2)}
+                >
+                    지도로 보기
+                    </button>
             </form>
-            <SelectLocation />
-        </>
+            {
+                step === 1 &&
+                <SelectLocation />
+            }
+            {
+                step === 2 &&
+                <LocationMap />
+            }
+
+        </article>
     );
 }
 
