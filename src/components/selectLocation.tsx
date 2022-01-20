@@ -17,27 +17,27 @@ const SelectLocation: React.FC<SelectLocationProps> = ({ handleSelect }) => {
     let observer: IntersectionObserver;
     const target = useRef(null);
     const [isLoaded, setIsLoaded] = useState(false);
-    if (target.current) {
-        observer = new IntersectionObserver(async ([entry]: any, observer: IntersectionObserver) => {
-            if (entry.isIntersecting && !isLoaded) {
-                observer.unobserve(entry.target);
-                setIsLoaded(true);
-                if (pageInfo.isEnd !== 3) {
-                    const searchResult = await getLocations(pageInfo);
-                    setPageInfo(searchResult);
-                    await new Promise((resolve) => setTimeout(resolve, 1000));
-                }
-                setIsLoaded(false);
-                observer && observer.disconnect();
-            }
-        }, {
-            threshold: 1,
-        });
-        observer.observe(target.current);
-    }
+
     useEffect(() => {
+        if (target.current) {
+            observer = new IntersectionObserver(async ([entry]: any, observer: IntersectionObserver) => {
+                if (entry.isIntersecting && !isLoaded) {
+                    observer.unobserve(entry.target);
+                    setIsLoaded(true);
+                    if (pageInfo.isEnd !== 3) {
+                        const searchResult = await getLocations(pageInfo);
+                        setPageInfo(searchResult);
+                        await new Promise((resolve) => setTimeout(resolve, 1000));
+                    }
+                    setIsLoaded(false);
+                }
+            }, {
+                threshold: 1,
+            });
+            observer.observe(target.current);
+        }
         return () => observer && observer.disconnect();
-    }, []);
+    }, [target, isLoaded, pageInfo]);
 
     return (
         <div
