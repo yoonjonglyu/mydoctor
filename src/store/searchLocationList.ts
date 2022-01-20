@@ -12,12 +12,12 @@ export const SearchLocationListSlice = createSlice({
     name: 'searchLocationList',
     initialState,
     reducers: {
-        setLocationList: (state, action: PayloadAction<SearchLocationListState>) => {
+        setSearchLocationList: (state, action: PayloadAction<SearchLocationListState>) => {
             state.search = action.payload.search;
         },
     },
 })
 
-export const { setLocationList } = SearchLocationListSlice.actions
+export const { setSearchLocationList } = SearchLocationListSlice.actions
 
 export default SearchLocationListSlice.reducer
