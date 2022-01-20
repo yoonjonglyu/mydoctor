@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import LocationListReducer from './locationList';
+import searchLocationListReducer from './searchLocationList';
 
 const Store = configureStore({
     reducer: {
         locationList: LocationListReducer,
+        searchLocation: searchLocationListReducer,
     }
 });
 
