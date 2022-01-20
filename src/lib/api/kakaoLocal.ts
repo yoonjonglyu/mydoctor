@@ -21,7 +21,7 @@ class KakaoLocal {
             return false;
         }
     }
-    async getKeyword(query: string, page: number = 1, size: number = 20) {
+    async getKeyword(query: string, page: number = 1, size: number = 15) {
         try {
             const { data } = await Axios.get(`${this.url}keyword.json?sort=accuracy&page=${page}&size=${size}&query=${encodeURIComponent(query)}`, {
                 headers: {
