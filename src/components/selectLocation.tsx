@@ -3,10 +3,10 @@ import React from 'react';
 import { useSearchLocations } from '../lib/custom/locations';
 
 interface SelectLocationProps {
-
+    handleSelect: (address: string, x: number, y: number) => void
 }
 
-const SelectLocation: React.FC<SelectLocationProps> = () => {
+const SelectLocation: React.FC<SelectLocationProps> = ({ handleSelect }) => {
     const {
         searchLocations,
         setSearchLocations,
@@ -29,7 +29,10 @@ const SelectLocation: React.FC<SelectLocationProps> = () => {
                 {
                     searchLocations.map((item, idx) => {
                         return (
-                            <li key={idx}>
+                            <li
+                                key={idx}
+                                onClick={() => handleSelect(item.addressName, item.x, item.y)}
+                            >
                                 <p>
                                     주소 : {item.addressName}<br />
                                     x: {item.x}<br />

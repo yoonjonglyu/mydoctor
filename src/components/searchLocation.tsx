@@ -40,7 +40,7 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
                     setSelectInfo({
                         ...selectInfo,
                         addressName: keyword,
-                        currentPage: selectInfo.currentPage + 1
+                        currentPage: 2
                     });
                     setSearchLocations(state);
                 } else {
@@ -61,6 +61,15 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
     const handleKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
         setKeyword(e.target.value);
     }
+    const handleSelect = (address: string, x: number, y: number) => {
+        setSelectInfo({
+            ...selectInfo,
+            addressName: address,
+            x: x,
+            y: y,
+        });
+        setStep(2);
+    }
 
     return (
         <article data-tesdid="search-location">
@@ -80,7 +89,9 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
             </form>
             {
                 step === 1 &&
-                <SelectLocation />
+                <SelectLocation
+                    handleSelect={handleSelect}
+                />
             }
             {
                 step === 2 &&
