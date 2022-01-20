@@ -7,12 +7,16 @@ declare global {
 interface NaverMapProps {
     url: string
     ref: React.MutableRefObject<null>
+    x: number
+    y: number
 }
 
 function NaverMap(props: NaverMapProps) {
     const {
         url,
-        ref
+        ref,
+        x,
+        y,
     } = props;
 
     if (!document.getElementById("naverMap")) {
@@ -24,7 +28,7 @@ function NaverMap(props: NaverMapProps) {
 
     const initMap = () => {
         const map = new naver.maps.Map(ref.current, {
-            center: new naver.maps.LatLng(37.3595704, 127.105399),
+            center: new naver.maps.LatLng(y, x),
             zoom: 10
         });
     }
