@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import SelectLocation from './selectLocation';
 import LocationMap from './locationMap';
@@ -68,8 +68,20 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
             x: x,
             y: y,
         });
-        setStep(2);
+        setStep(step + 1);
     }
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                setSelectInfo({
+                    ...selectInfo,
+                    y: position.coords.latitude,
+                    x: position.coords.longitude, 
+                });       
+            });
+        }
+    }, []);
 
     return (
         <article data-tesdid="search-location">
@@ -98,6 +110,7 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
                 <LocationMap
                     x={selectInfo.x}
                     y={selectInfo.y}
+                    handleSelect={handleSelect}
                 />
             }
 
