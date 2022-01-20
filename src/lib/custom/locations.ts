@@ -4,7 +4,7 @@ import { RootState } from '../../store/configureStore';
 import { setLocationList } from '../../store/locationList';
 import { setSearchLocationList } from '../../store/searchLocationList';
 
-export function userLocations() {
+export function useUserLocations() {
     const locations = useSelector((state: RootState) => state.locationList.locationList);
     const dispatch = useDispatch();
 
@@ -28,7 +28,7 @@ export function userLocations() {
     };
 }
 
-export function searchLocations() {
+export function useSearchLocations() {
     const searchLocations = useSelector((state: RootState) => state.searchLocation.search);
     const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ export function searchLocations() {
             }
         ));
     }
-    
+
     return {
         searchLocations,
         setSearchLocations,
