@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/configureStore';
 
 import { setLocationList } from '../../store/locationList';
+import { setSearchLocationList } from '../../store/searchLocationList';
 
 export function userLocations() {
     const locations = useSelector((state: RootState) => state.locationList.locationList);
@@ -23,6 +24,24 @@ export function userLocations() {
     return {
         locations,
         setLocations,
-        removeLocations
+        removeLocations,
+    };
+}
+
+export function searchLocations() {
+    const searchLocations = useSelector((state: RootState) => state.searchLocation.search);
+    const dispatch = useDispatch();
+
+    const setSearchLocations = (state: typeof searchLocations) => {
+        dispatch(setSearchLocationList(
+            {
+                search: state
+            }
+        ));
     }
+    
+    return {
+        searchLocations,
+        setSearchLocations,
+    };
 }
