@@ -29,7 +29,7 @@ function NaverMap(props: NaverMapProps) {
     const initMap = () => {
         const map = new naver.maps.Map(ref.current, {
             center: new naver.maps.LatLng(y, x),
-            zoom: 10
+            zoom: 14
         });
     }
 
