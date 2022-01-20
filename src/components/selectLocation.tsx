@@ -29,9 +29,11 @@ const SelectLocation: React.FC<SelectLocationProps> = () => {
                 {
                     searchLocations.map((item, idx) => {
                         return (
-                            <li>
+                            <li key={idx}>
                                 <p>
-                                    test
+                                    주소 : {item.addressName}<br />
+                                    x: {item.x}<br />
+                                    y: {item.y}<br />
                                 </p>
                             </li>
                         );
