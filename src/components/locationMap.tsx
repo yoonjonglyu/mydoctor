@@ -21,7 +21,10 @@ const LocationMap: React.FC<LocationMapProps> = ({ x, y, handleSelect }) => {
     });
 
     useEffect(() => {
-        setTimeout(naverMap, 100);
+        const initMap = setTimeout(naverMap, 100);
+        return () => {
+            clearTimeout(initMap);
+        }
     }, []);
 
     return (
