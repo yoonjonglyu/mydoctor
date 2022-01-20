@@ -14,6 +14,7 @@ export function useUserLocations() {
                 locationList: state
             }
         ));
+        localStorage.setItem('locationList', JSON.stringify(state));
     }
     const removeLocations = (idx: number) => {
         const state = [...locations.slice(0, idx), ...locations.slice(idx + 1, locations.length)];
