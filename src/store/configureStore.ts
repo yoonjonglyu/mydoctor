@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import LocationListReducer from './locationList';
-import searchLocationListReducer from './searchLocationList';
+import SearchLocationListReducer from './searchLocationList';
+import SearchPageInfoReducer from './searchPageInfo';
 
 const Store = configureStore({
     reducer: {
         locationList: LocationListReducer,
-        searchLocation: searchLocationListReducer,
+        searchLocation: SearchLocationListReducer,
+        SearchPageInfo: SearchPageInfoReducer,
     }
 });
 
