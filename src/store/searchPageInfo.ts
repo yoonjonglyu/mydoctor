@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface SearchPageInfoState {
     pageInfo: {
-        isEnd: boolean
+        isEnd: 1 | 2 | 3
         keyword: string
         currentPage: number
     }
@@ -10,7 +10,7 @@ export interface SearchPageInfoState {
 
 const initialState: SearchPageInfoState = {
     pageInfo: {
-        isEnd: true,
+        isEnd: 1,
         keyword: '',
         currentPage: 1,
     }
