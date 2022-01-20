@@ -1,26 +1,17 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../store/configureStore';
 
-import { setLocationList } from '../store/locationList';
+import { userLocations } from '../lib/custom/locations';
 
 interface LocationListProps {
 
 }
 
 const LocationList: React.FC<LocationListProps> = () => {
-    const locations = useSelector((state: RootState) => state.locationList.locationList);
-    const dispatch = useDispatch();
-
-    const removeLocations = (idx: number) => {
-        const state = [...locations.slice(0, idx), ...locations.slice(idx + 1, locations.length)];
-        dispatch(setLocationList(
-            {
-                locationList: state
-            }
-        ));
-        localStorage.setItem('locationList', JSON.stringify(state));
-    }
+    const {
+        locations,
+        setLocations,
+        removeLocations,
+    } = userLocations();
 
     useEffect(() => { // init dummy data
         if (!localStorage.getItem('locationList')) {
@@ -43,11 +34,7 @@ const LocationList: React.FC<LocationListProps> = () => {
             );
         }
 
-        dispatch(setLocationList(
-            {
-                locationList: JSON.parse(localStorage.getItem('locationList') || '[]')
-            }
-        ));
+        setLocations(JSON.parse(localStorage.getItem('locationList') || '[]'));
 
     }, []);
 
