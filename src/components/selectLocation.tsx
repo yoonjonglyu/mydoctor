@@ -9,7 +9,7 @@ interface SelectLocationProps {
 const SelectLocation: React.FC<SelectLocationProps> = ({ handleSelect }) => {
     const {
         searchLocations,
-        setSearchLocations,
+        getLocations,
     } = useSearchLocations();
 
     return (
