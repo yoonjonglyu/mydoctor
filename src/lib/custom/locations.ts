@@ -21,7 +21,10 @@ export function useUserLocations() {
         ));
         localStorage.setItem('locationList', JSON.stringify(state));
     }
-    const removeLocations = (idx: number) => {
+    const addLocation = (location: typeof locations[0]) => {
+        setLocations([...locations, location]);
+    }
+    const removeLocation = (idx: number) => {
         const state = [...locations.slice(0, idx), ...locations.slice(idx + 1, locations.length)];
         setLocations(state);
         localStorage.setItem('locationList', JSON.stringify(state));
@@ -30,7 +33,8 @@ export function useUserLocations() {
     return {
         locations,
         setLocations,
-        removeLocations,
+        addLocation,
+        removeLocation,
     };
 }
 
