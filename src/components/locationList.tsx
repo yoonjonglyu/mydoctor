@@ -10,7 +10,7 @@ const LocationList: React.FC<LocationListProps> = () => {
     const {
         locations,
         setLocations,
-        removeLocations,
+        removeLocation,
     } = useUserLocations();
 
     useEffect(() => { // init dummy data
@@ -55,7 +55,7 @@ const LocationList: React.FC<LocationListProps> = () => {
                                 </p>
                                 <button
                                     type="button"
-                                    onClick={() => removeLocations(idx)}
+                                    onClick={() => removeLocation(idx)}
                                 >
                                     삭제
                                 </button>
