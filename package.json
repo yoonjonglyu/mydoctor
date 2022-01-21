@@ -4,6 +4,8 @@
   "description": "> 기본 환경 템플릿",
   "main": "index.js",
   "scripts": {
+    "start": "npm run dev",
+    "prestart": "npm install",
     "dev": "webpack-dev-server --env env=dev",
     "dev:bundleanalyzer": "npm run dev -- --env addons=bundleanalyzer",
     "prebuild": "rimraf dist",
