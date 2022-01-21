@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 
 interface AddLocationProps {
-
+    addressInfo: {
+        addressName: string
+        x: number
+        y: number
+    }
+    addUserLocation: (alias: string, addressDetail: string, notice: string) => void;
 }
 
-const AddLocation: React.FC<AddLocationProps> = () => {
+const AddLocation: React.FC<AddLocationProps> = ({ addressInfo, addUserLocation }) => {
     const [alias, setAlias] = useState('');
     const [addressDetail, setAddressDetail] = useState('');
     const [notice, setNotice] = useState('');
@@ -18,6 +23,13 @@ const AddLocation: React.FC<AddLocationProps> = () => {
     const handleNotice = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNotice(e.target.value);
     }
+    const handleAddLocation = () => {
+        addUserLocation(
+            alias,
+            addressDetail,
+            notice
+        );
+    }
 
     return (
         <article
@@ -28,6 +40,7 @@ const AddLocation: React.FC<AddLocationProps> = () => {
             }}
         >
             <form>
+                <h2>{addressInfo.addressName}</h2>
                 <ul>
                     <li>
                         <label htmlFor="alias">
@@ -63,6 +76,12 @@ const AddLocation: React.FC<AddLocationProps> = () => {
                         </label>
                     </li>
                 </ul>
+                <button
+                    type="button"
+                    onClick={handleAddLocation}
+                >
+                    등록하기
+                </button>
             </form>
         </article>
     );
