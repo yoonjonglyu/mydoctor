@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 import SelectLocation from './selectLocation';
 import LocationMap from './locationMap';
+import AddLocation from './addLocation';
 
 import { useSearchLocations } from '../lib/custom/locations';
+import { useUserLocations } from '../lib/custom/locations';
 
 interface SearchLocationProps {
 
@@ -21,6 +23,7 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
         setPageInfo,
         getLocations,
     } = useSearchLocations();
+
 
     const searchAddress = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -47,6 +50,21 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
         });
         setStep(step + 1);
     }
+
+    const {
+        addLocation
+    } = useUserLocations();
+
+    const handleLocation = (alias: string, addressDetail: string, notice: string) => {
+        addLocation({
+            name: alias,
+            location: selectInfo.addressName,
+            locationDetail: addressDetail,
+            notice:notice
+        });
+        setStep(0);
+    }
+
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
@@ -88,6 +106,13 @@ const SearchLocation: React.FC<SearchLocationProps> = () => {
                     y={selectInfo.y}
                     handleSelect={handleSelect}
                 />
+            }
+            {
+                step === 3 &&
+                <AddLocation
+                    addressInfo={selectInfo}
+                    addUserLocation={handleLocation}
+                 />
             }
 
         </article>
