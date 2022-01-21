@@ -52,7 +52,6 @@ const LocationMap: React.FC<LocationMapProps> = ({ x, y, handleSelect }) => {
             }}
         >
             <div
-                id="map"
                 style={{
                     width: "100%",
                     height: "400px"
