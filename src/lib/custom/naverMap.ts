@@ -10,6 +10,7 @@ interface NaverMapProps {
     x: number
     y: number
 }
+type handleSelect = (address: { jibunAddress: string, roadAddress: string }, xy: { x: number, y: number }) => void
 
 function NaverMap(props: NaverMapProps) {
     const {
@@ -27,7 +28,7 @@ function NaverMap(props: NaverMapProps) {
     }
 
 
-    const initMap = () => {
+    const initMap = (handleSelect: handleSelect) => {
         const map = setMap();
         const marker = setMarker();
         const infoWindow = new naver.maps.InfoWindow({
@@ -89,6 +90,7 @@ function NaverMap(props: NaverMapProps) {
                 if (address.roadAddress !== '') {
                     htmlAddresses.push('[도로명 주소] ' + address.roadAddress);
                 }
+                handleSelect(address, { x: latlng.x, y: latlng.y });
 
                 infoWindow.setContent([
                     '<div style="padding:10px;min-width:200px;line-height:150%;">',
